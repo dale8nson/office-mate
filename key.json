@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "officemate-407512",
+  "private_key_id": "56e041dafd72f008589ffb6b25621caaeea5f1a5",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCuJjj6vxvRFOf9\nImZZqFX1G0aWmk/hDzMMLp/1uZuMlfJ8mI0uEE/S4q1Msp6ie+gnel4zqGeBs85a\nW5LILx2madsncY6WRrMX1EkRII3AIwSB6rWMNAKL44fQwDAwaXXYjjV/57I3Q9JM\nOkg8esLE7VEQxoxEXhmPKWiEDpyFVFhtZmxSjHEPO1Uf6m/CLd5pfWJ64W9v5XJj\nJezPv9O67d+rw50W3K2ntU4KqRTuiIcPXuquX/d2rj8ZM1Sf2VsLbFznZcHMTsm8\n+tW56GHuY+fXMRG2Dc9UGZsqMQZCNDh1Jzz/9X92xnS97kYATAsiURd361Eoom+F\nOudH/B/hAgMBAAECggEAEAzFw5ZJYgOjPdklxa2V/nj9EHQ4WG2mLsE9TNBGXbaU\nGpeUq2IleTIa9q6foCn7Q2grtmcW4wVHR1yZMonlGak34XK9yWvKpa+S7Fkrt0GC\n8NZI1RsWAP5/TeXoiw2tJsA0fg1Eh4NgplXYwnot6ShWCE3EL6jcgi02zLTsB/2O\nwjlx8dGvjqCEbbGPRf5D7MHjiOrxzv6SIasXcbEtW3/72bH5iOwRoFK8lfH2kyI+\nhonwLCcSPAMKcDhOkXBe+5pWayMPO/Fj9Nb44eDl4lS2fB5zUL/umQs3tdvkQQW4\n4z4N3TRWLV7Xh4BU0ju8H6P6n6+JwfC5Q2cz8HgH4QKBgQDxs6a7K6zBHGIXAkGy\n8KF9PcI/2Xmm/Zr1HW6TO6mGOANapI8SL0DPOyzRJgzunWd5CasedDYdBY3WTY6F\nfMRLuYFgFues4742tSyMnZNKD5xpzKLvdQdeU7G93/bM/8r2KI10hbPkbgFW/BwX\noaqjdywmTWUeiD/FAo9hQFkWcwKBgQC4c41VH/A+WJE6zQuJTGWk23ahUyTevjoq\nh0ZkOd4Ola2DmcbimhAQFN4Qsyq1MIsdP1M3dIQdcpkvWp29bmbCLpkvcX1Nk25V\nDh/CdnNH4biJ359zU4lZ5zzFK47m/toW22UuD7GyBNPT6NH/eAmR6NnpNkzVUZ2H\naThEQ3wHWwKBgQDsRPF3hfoZy+UXGN2gThmOlBCO2chRtRcFBQBSbMAKtDaTJMm2\nvPpdmTr2OHvrxXKgnxLncjJzrDo6gxYO5yf73hraE4nlN7t5PyGNU3vnqdr8kU21\nRnEthCL7uTNIscN1Xa7peMmhQueMYGYVs7Nal+RQjNeMQSQVMat3Ja/wgQKBgBmu\nlR4mHUhBAq+iPxn11i03FXRu5DJTYDvtq+JmoEF9m7Q4JBYHB3eFwEmo+KhTwvrm\nh0qwYXjMLQIH5vCqP4qH/HI7pgu4HGOhXNCxt2lpx00DIutm1Tf8V1zIrNQC5hDK\nqXLZYo971pap0xtz9jknp7euBNKq03k4MEpo7wsDAoGARufBGFKQeaj1EGR5bSdK\n/LTCtE9KFRNoAuI+ULveqgJ/SH8LolOsROR7qVhk2EZaME0DE2IdAcua/UNedtGA\nsb8ofLy1SJRGn2/LwHbCSAG1yPWjJPaI5Bg5SX4qPW4Nrra8h16bPQOZAXMkhirG\nYwazuVfQ1B1zvJ9oSkU3Y68=\n-----END PRIVATE KEY-----\n",
+  "client_email": "drive-api@officemate-407512.iam.gserviceaccount.com",
+  "client_id": "114443882444717423728",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/drive-api%40officemate-407512.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

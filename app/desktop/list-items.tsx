@@ -10,6 +10,7 @@ import WbCloudyOutlinedIcon from '@mui/icons-material/WbCloudyOutlined';
 import CategoryIcon from '@mui/icons-material/Category';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { CloudOutlined } from '@mui/icons-material';
 import Link from 'next/link';
 
@@ -54,6 +55,14 @@ export const mainListItems = (
       </ListItemIcon>
         <ListItemText>
           Cloud
+        </ListItemText>
+    </ListItemButton>
+    <ListItemButton LinkComponent={Link} href='/api/auth/signout' >
+      <ListItemIcon>
+        <LogoutOutlinedIcon />
+      </ListItemIcon>
+        <ListItemText>
+          Sign out
         </ListItemText>
     </ListItemButton>
     

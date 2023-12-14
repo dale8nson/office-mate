@@ -20,7 +20,7 @@ const Page = async ({searchParams, params}:{searchParams?:{query?: string, page?
   let json: object;
   if (!!session) {
     console.log(`page session:`, session);
-    const access_token = cookies().get('access_token').value;
+    const access_token = cookies()?.get('access_token')?.value;
 
     const aboutReq = new NextRequest('https://www.googleapis.com/drive/v3/about?fields=kind,user', {headers:{Authorization:`Bearer ${access_token}`}});
     const aboutResponse = await fetch(aboutReq);

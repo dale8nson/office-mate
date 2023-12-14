@@ -1,12 +1,6 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google"
-import { NextAuthConfig } from "next-auth";
 import { cookies } from "next/headers";
-import SignToken from "./sign-token"
-import { EncryptJWT } from "jose";
-import * as jose from 'jose';
-
-let access_token: String;
 
 export const {
   handlers,
@@ -71,20 +65,6 @@ export const {
           redirect_uri: 'http://localhost:3000/api/auth/callback/google'
         }
       },
-      // profile(profile) {
-
-      //   console.log(`profile profile:`, profile);
-
-      //   return {
-      //     name: profile.name,
-      //     id: profile.sub,
-      //     iss: profile.iss,
-      //     aud: profile.aud,
-      //     alg: profile.alg,
-      //     iat: profile.iat,
-      //     exp: profile.exp
-      //   }
-      // }
     })
   ]
 });

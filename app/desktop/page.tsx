@@ -6,9 +6,16 @@ import Typography from '@mui/material/Typography';
 import { defaultTheme } from '../themes';
 import { ThemeProvider } from '@mui/material';
 import { CssBaseline } from '@mui/material';
+import { Redirect } from 'next';
+import { auth } from '@/auth';
+import { redirect } from 'next/dist/server/api-utils';
 
 
 const Page = () => {
+  const session = auth();
+  if(!session) redirect('/');
+
+
   return (
     <>
       <ThemeProvider theme={defaultTheme}>

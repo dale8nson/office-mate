@@ -9,11 +9,12 @@ import { CssBaseline } from '@mui/material';
 import { Redirect } from 'next';
 import { auth } from '@/auth';
 import { redirect } from 'next/dist/server/api-utils';
+import { useSession } from 'next-auth/react';
 
 
 const Page = () => {
-  const session = auth();
-  if(!session) redirect('/');
+  // const session = useSession();
+  // if(!session.data) redirect('/');
 
 
   return (

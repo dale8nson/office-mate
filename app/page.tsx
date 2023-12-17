@@ -1,28 +1,15 @@
 import Image from 'next/image';
 import { auth, signIn, signOut } from '@/auth';
-import { NextRequest, NextResponse } from 'next/server';
-import { NextApiRequest, NextApiResponse } from 'next';
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers'
-import { Auth } from '@auth/core';
-import Google from '@auth/core/providers/google';
 import Button from '@mui/material/Button'
-import { getToken } from '@auth/core/jwt';
-import type { GetTokenParams } from '@auth/core/jwt';
-import { EncryptJWT } from 'jose';
-import * as jose from 'jose';
-
-
-
-
-
 
 export default async function Page() {
 
   const session = await auth();
   console.log(`session:`, session);
 
-  if(!!session) redirect('/desktop');
+  if(!!session) { redirect('/desktop'); }
+  else { redirect('/api/auth/signin/google')}
 
   return (
     <>

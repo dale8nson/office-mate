@@ -23,7 +23,7 @@ export const {
       cookies().set('access_token', account?.access_token as string);
       cookies().set('refresh_token', account?.access_token as string);
 
-    console.log(`signIn account:`, account);
+    // console.log(`signIn account:`, account);
     // access_token = account?.access_token as String;
     // console.log(`signIn user:`, user)
 
@@ -60,7 +60,7 @@ export const {
           type: 'oauth',
           scope: "openid profile email https://www.googleapis.com/auth/drive",
           access_type: "offline",
-          prompt: "consent",
+          prompt: "select_account",
           response_type: "code",
           redirect_uri: 'http://localhost:3000/api/auth/callback/google'
         }

@@ -19,11 +19,9 @@ const Page = () => {
 
   return (
     <>
-      <ThemeProvider theme={defaultTheme}>
-        <Box component='main' >
-          <Typography variant='h2' color='primary' >Desktop</Typography>
-        </Box>
-      </ThemeProvider>
+      <Box component='main' >
+        <Typography variant='h2' color='primary' >Desktop</Typography>
+      </Box>
     </>
   )
 }

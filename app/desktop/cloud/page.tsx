@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import { defaultTheme } from '@/app/themes';
 import { ThemeProvider } from '@mui/material';
@@ -11,60 +11,64 @@ import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 import { getToken } from '@auth/core/jwt';
 import FileCard from './file-card';
+import FolderTabs from './folder-tabs';
 import Skeleton from '@mui/material/Skeleton';
+import { getFiles, driveFetch, getThumbnail, getFile } from './cloud-actions';
+import { useSession } from 'next-auth/react';
+import { imageSize } from 'image-size';
+import { Face2 } from '@mui/icons-material';
+
 
 const Page = async () => {
 
-  const session = auth();
+  const session = await auth();
   console.log(`cloud session:`, session);
-
-  let json: { files: object } | null;
-
-  let getJson: () => Promise<boolean>;
-
+  let files, fileCards = Array();
+  let folders: object[];
   if (!!session) {
-    console.log(`page session:`, session);
-    const access_token = cookies()?.get('access_token')?.value;
+    files = await getFiles();
+    console.log(`cloud page files:`,  files);
 
-    // const aboutReq = new NextRequest('https://www.googleapis.com/drive/v3/about?fields=kind,user', {headers:{Authorization:`Bearer ${access_token}`}});
-    // const aboutResponse = await fetch(aboutReq);
-    // const aboutJson = await aboutResponse.json();
-    // console.log(`aboutJson:`, aboutJson);
+    let size;
+    const filteredFiles = files.filter(file => !(file.mimeType.includes('folder')));
+     
 
-    const req = new NextRequest('https://www.googleapis.com/drive/v3/files', { headers: { Authorization: `Bearer ${access_token}` } });
-
-    getJson = async () => {
-      const res = await fetch(req);
-      if (!!res) {
-        json = await res.json();
-        if (!!json) {
-          // console.log(`drive api res:`, json);
-          return true;
-        }
+      fileCards = filteredFiles.map(async file => {
+      const thumbLink = await getThumbnail(file.id);
+      // console.log(`thumbLink: ${thumbLink}`);
+      if (thumbLink) {
+        const ab = await fetch(thumbLink as string).then(res => res.arrayBuffer());
+        const buf = Buffer.from(ab);
+        size = imageSize(buf);
+      } else {
+        size = { width: 256, height: 256 }
       }
-      return false;
-    }
-  }
 
+
+      return (
+        <FileCard key={file.id} {...{ thumbLink: thumbLink ?? null, fileName: file.name, size }} />
+      );
+    });
+
+    folders = await files.filter(file => {
+      return file.mimeType.includes('folder');
+    })
+
+
+    // console.log(`cloud page files:`, files);
+  }
   return (
-    <ThemeProvider theme={defaultTheme} >
-      <Box component='main' sx={{ display: 'flex' }}>
-        <Box component='section' sx={{ display: 'normal', columnCount: 4, columnGap: '2%', flexGrow: 4 }}>
-          {(await getJson()) && Object.entries(json.files).map(([key, value]) => {
-            return (
-              <Suspense key={key} fallback={<Skeleton variant='text' />} loading='lazy' >
-                <FileCard file={value} />
-              </Suspense>
-            )
-          })}
+      <Box component='main' sx={{ display: 'flex', justifyContent:'space-between' }} >
+        <Box component='section' sx={{ flexBasis: 1, position:'relative', width:'5vw', bgcolor:'background.paper' }}>
+          <FolderTabs files={folders} />
         </Box>
-        <Box component='section' sx={{ flexGrow: 1 }}>
-          <Typography variant='h6' color='primary'>View</Typography>
+        <Box component='section' sx={{height: '100%', width: '100%', display:'grid', flexBasis:4, gridTemplateColumns:'repeat(4, auto)', gridAutoColumns:'minmax(100px, 256px)', rowGap:'0.625%' }}>
+          {fileCards}
         </Box>
       </Box>
-    </ThemeProvider>
   );
 }
+
 
 
 export default Page;

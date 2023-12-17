@@ -1,4 +1,5 @@
-import { Suspense } from 'react';
+'use client';
+import { Suspense, useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -6,59 +7,44 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
+import FunctionsIcon from '@mui/icons-material/Functions';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import TextSnippetOutlinedIcon from '@mui/icons-material/TextSnippetOutlined';
-import { Document, Page } from '@react-pdf/renderer';
-import pdf2html from 'pdf2html';
-import { NextRequest } from 'next/server';
-import { cookies } from 'next/headers';
 import { CardMedia } from '@mui/material';
-import getThumbnail from './get-thumbnail';
+import Paper from '@mui/material/Paper';
+import { getThumbnail, getFiles } from './cloud-actions';
 import Skeleton from '@mui/material/Skeleton';
+import Image from 'next/image';
+// import ServerImage from './server-image';
 
-const FileCard = async ({ file }) => {
+const FileCard = ({ thumbLink, fileName, size }) => {
+  // const [url, setUrl] = useState('');
+  // console.log(`FileCard file:`, file);
+  const extensions = {
+    null: <FolderOutlinedIcon sx={{ display: 'block', width: '128px', height: '128px', marginInline: 'auto' }} />,
+    'pdf': <PictureAsPdfOutlinedIcon sx={{ display: 'block', width: '128px', height: '128px', marginInline: 'auto' }} />,
+    'epub': <AutoStoriesOutlinedIcon sx={{ display: 'block', width: '128px', height: '128px', marginInline: 'auto' }} />,
+    'docx': <TextSnippetOutlinedIcon sx={{ display: 'block', width: '128px', height: '128px', marginInline: 'auto' }} />,
+    'xlsx': <FunctionsIcon sx={{ display: 'block', width: '128px', height: '128px', marginInline: 'auto' }} />
+  }
 
-    const extensions = {
-        null: <FolderOutlinedIcon />,
-        'pdf': <PictureAsPdfOutlinedIcon />,
-        'epub': <AutoStoriesOutlinedIcon />,
-        'docx': <TextSnippetOutlinedIcon />
-    }
+  const ext = fileName.match(/(?<=[.]).+$/);
+  const fn = fileName.match(/^[^.]*(?=[.])?/);
 
-    const ext = file.name.match(/(?<=[.]).+$/);
-    const access_token = cookies().get('access_token')?.value;
-
-    const options = { page: 1, imageType: 'png', width: 160, height: 226 };
-
-    //   let thumbnail: Blob | null;
-
-    if (file.mimeType.includes('pdf')) {
-        const req = new NextRequest(`https://www.googleapis.com/drive/v3/files/${file.id}`, { headers: { Authorization: `Bearer ${access_token as string}`, alt: 'media' } });
-        const res = await fetch(req).catch(error => console.log(error));
-        // for await (const chunk of res?.body) {
-        //     b64str += btoa(chunk);
-
-    
-    // thumbnail = await pdf2html.thumbnail(b64str);
-    // thumbnail = await getThumbnail(file.id).catch(error => console.log(error));
-    }
-    const fileName = file.name.match(/^[^.]*(?=[.])?/);
-
-    return (
-        <Box component='div' sx={{ marginBlock:'5%' }} >
-            <Card sx={{ height: '85%', width: '100%', margin:'0 auto', '& .MuiPaper-root': { margin: 0 }}}>
-                <Suspense fallback={<Skeleton variant='rectangular' />} >
-                        <CardMedia component='iframe' src={await getThumbnail(file.id)} loading='lazy' sx={{marginInline:'auto', height:'220px', width:'150px'}} />
-                        {/* {file.mimeType.includes('pdf') && <iframe src={await getThumbnail(file.id).catch(error => console.log(error))} style={{ width: '100%', height: '100%' }} />} */}
-                    </Suspense>
-                <CardContent sx={{height:'15%'}} >
-                    
-                    <Typography sx={{ fontSize: '0.75rem' }} >{fileName}</Typography>
-                </CardContent>
-            </Card>
-        </Box>
-    );
-};
+  return (
+    <Box component='div' sx={{ margin:'auto', width: `${size.width}px`, height:`calc(${size.height}px * 1.25 `}} >
+      <Card elevation={2} sx={{ height: '100%', width: '100%', margin: '1rem auto', '& .MuiPaper-root': { margin: 0, height: '100%', width: '100%'} }}>
+        {!!thumbLink && <Image alt='thumbnail image' src={thumbLink} width={size.width} height={size.height} style={{ width: '100%', height: '100%', marginInline: 'auto', objectFit:'cover' }} />}
+        {!!thumbLink || extensions[ext]}
+        <CardContent sx={{ height: `85px`, m:1, overflow:'hidden' }} >
+          {/* <Paper variant='outlined' elevation={3} sx={{p:1}}> */}
+            <Typography variant='caption' sx={{ fontSize: '0.8rem', textOverflow:'ellipsis' }} >{fn}</Typography>
+          {/* </Paper> */}
+        </CardContent>
+      </Card>
+    </Box>
+  );
+}
 
 export default FileCard;

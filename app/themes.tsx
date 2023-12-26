@@ -1,5 +1,16 @@
 'use client';
 
-import { createTheme } from "@mui/material";
+import { createTheme, ThemeProvider as MUIThemeProvider } from '@mui/material/styles';
 
-export const defaultTheme = createTheme();
+
+const defaultTheme = createTheme();
+
+export default function ThemeProvider({ children }) {
+  return (
+
+    <MUIThemeProvider theme={defaultTheme}  >
+      {children}
+    </MUIThemeProvider>
+
+  )
+}

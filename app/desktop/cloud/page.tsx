@@ -1,74 +1,137 @@
-import { Suspense, useEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
-import { defaultTheme } from '@/app/themes';
-import { ThemeProvider } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import { google } from 'googleapis';
-import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
-import { getToken } from '@auth/core/jwt';
-import FileCard from './file-card';
 import FolderTabs from './folder-tabs';
-import Skeleton from '@mui/material/Skeleton';
-import { getFiles, driveFetch, getThumbnail, getFile } from './cloud-actions';
-import { useSession } from 'next-auth/react';
 import { imageSize } from 'image-size';
-import { Face2 } from '@mui/icons-material';
+import Skeleton from '@mui/material/Skeleton';
+import { getFile, getFiles, getThumbLink, getFileParentIDs, getRootFolderId } from './cloud-actions';
+
+interface Size {
+  width: number | undefined,
+  height: number | undefined
+}
+
+interface FileMeta {
+  name: string,
+  id: string,
+  mimeType: string,
+  parents: string[],
+  hasThumbnail: boolean,
+  thumbnailLink: string
+}
+
+interface FileCardProps {
+  thumbLink: string | null,
+  fileName: string,
+  size: Size
+}
+
+type FilesMeta = { name: string, id: string, mimeType: string, kind: string }
+
+type TabFileGroups = { [id: symbol]: Promise<string>[] };
+
+
+type FileGroup = Promise<FileCardProps>[];
 
 
 const Page = async () => {
 
   const session = await auth();
-  console.log(`cloud session:`, session);
-  let files, fileCards = Array();
-  let folders: object[];
-  if (!!session) {
-    files = await getFiles();
-    console.log(`cloud page files:`,  files);
 
-    let size;
-    const filteredFiles = files.filter(file => !(file.mimeType.includes('folder')));
-     
+  const rootFolderId = await getRootFolderId();
 
-      fileCards = filteredFiles.map(async file => {
-      const thumbLink = await getThumbnail(file.id);
-      // console.log(`thumbLink: ${thumbLink}`);
-      if (thumbLink) {
-        const ab = await fetch(thumbLink as string).then(res => res.arrayBuffer());
-        const buf = Buffer.from(ab);
-        size = imageSize(buf);
-      } else {
-        size = { width: 256, height: 256 }
-      }
+  // console.log(`rootFolderId: ${rootFolderId}`);
 
+  let files: FileMeta[] = [];
+  let folders: FileMeta[] = [];
 
-      return (
-        <FileCard key={file.id} {...{ thumbLink: thumbLink ?? null, fileName: file.name, size }} />
-      );
-    });
+  const getTopLevelFolders = async (folderNames: { [id: string]: string } = {}, pageToken = null) => {
+    const rootFolderId = await getRootFolderId();
+    const folders = await getFiles('files(id,name),nextPageToken', `%27${rootFolderId}%27+in+parents+and+mimeType+contains+%27folder%27`, pageToken);
+    for (const folder of folders.files) {
+      folderNames[folder.id] = folder.name;
+    }
+    if (Object.hasOwn(folders, 'nextPageToken')) void await getTopLevelFolders(folderNames, folders.nextPageToken);
 
-    folders = await files.filter(file => {
-      return file.mimeType.includes('folder');
-    })
-
-
-    // console.log(`cloud page files:`, files);
+    return folderNames;
   }
+
+  const folderNames = getTopLevelFolders();
+  // console.log(`folderNames`, folderNames);
+
+  const getFolderFiles = async (folderId, files = [], pageToken: string | null = null) => {
+
+    const fs: { nextPageToken?: string | undefined, files: [] } = await getFiles('files(id,parents,name,mimeType,hasThumbnail,thumbnailLink,iconLink),nextPageToken', `%27${folderId}%27+in+parents`, pageToken);
+
+    // console.log(`fs:`, fs);
+
+    const fileIds = [];
+    // console.log()
+    for (const file of fs.files) {
+      fileIds.push(file.id);
+    }
+
+    files.push(fs);
+
+    if (Object.hasOwn(fs, 'nextPageToken')) void await getFolderFiles(folderId, files, fs.nextPageToken);
+
+    return files;
+
+  }
+
+  const getFolderFileMap = async (folderFileMap = {}) => {
+    const folderNames = await getTopLevelFolders();
+    for (const id in folderNames) {
+      // console.log(`folder ID:`, id);
+      const files = await getFolderFiles(id);
+      folderFileMap[id] = {folderName:folderNames[id],files: [...files[0].files]};
+    }
+    // console.log(`folderFileMap:`, folderFileMap);
+
+    return folderFileMap;
+  }
+
+  const folderFileMap = getFolderFileMap();
+  // console.log(`folderFileMap:`, folderFileMap);
+
+  const getImageSizes = async () => {
+    const map = await folderFileMap;
+    for (const folderId in map) {
+      for(const file of map[folderId]) {
+
+      }
+    }
+  }
+
+
+  const getFileNames = async (fileNames: { [id: string]: string } = {}, pageToken = null) => {
+
+    const files = await getFiles('files(id,name),nextPageToken', null, pageToken);
+    // console.log(`files:`, files);
+    for (const file of files.files) {
+      fileNames[file.id] = file.name;
+    }
+    if (Object.hasOwn(files, 'nextPageToken')) void await getFileNames(fileNames, files.nextPageToken);
+
+    return fileNames;
+
+  }
+
+  let fileNames = {}
+
+  // fileNames = getFileNames();
+  // console.log(`fileNames:`, fileNames);
+
   return (
-      <Box component='main' sx={{ display: 'flex', justifyContent:'space-between' }} >
-        <Box component='section' sx={{ flexBasis: 1, position:'relative', width:'5vw', bgcolor:'background.paper' }}>
-          <FolderTabs files={folders} />
-        </Box>
-        <Box component='section' sx={{height: '100%', width: '100%', display:'grid', flexBasis:4, gridTemplateColumns:'repeat(4, auto)', gridAutoColumns:'minmax(100px, 256px)', rowGap:'0.625%' }}>
-          {fileCards}
-        </Box>
-      </Box>
+    <Box component='main' sx={{ width: '100%', height: '100%' }}>
+      <Suspense fallback={<Skeleton variant='rounded' width='100%' height='100%' />} >
+        <FolderTabs {...{ folderNames, folderFileMap }} />
+      </Suspense>
+    </Box>
   );
+
 }
-
-
 
 export default Page;

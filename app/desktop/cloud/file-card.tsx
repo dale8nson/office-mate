@@ -1,5 +1,5 @@
 'use client';
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState, useEffect, use } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -13,14 +13,17 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import TextSnippetOutlinedIcon from '@mui/icons-material/TextSnippetOutlined';
 import { CardMedia } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import { getThumbnail, getFiles } from './cloud-actions';
+import { getThumbLink, getFiles, getImageSize } from './cloud-actions';
 import Skeleton from '@mui/material/Skeleton';
 import Image from 'next/image';
 // import ServerImage from './server-image';
 
-const FileCard = ({ thumbLink, fileName, size }) => {
+const FileCard = ({ fileId, file, fileName, thumbLink, index, tabIndex }) => {
   // const [url, setUrl] = useState('');
-  // console.log(`FileCard file:`, file);
+  const [size, setSize] = useState(null);
+  // console.log(`FileCard fileName: ${fileName}`);
+  // if(!fileName) fileName = 'blank.docx';
+  // console.log(`FileCard size:`, size);
   const extensions = {
     null: <FolderOutlinedIcon sx={{ display: 'block', width: '128px', height: '128px', marginInline: 'auto' }} />,
     'pdf': <PictureAsPdfOutlinedIcon sx={{ display: 'block', width: '128px', height: '128px', marginInline: 'auto' }} />,
@@ -29,21 +32,41 @@ const FileCard = ({ thumbLink, fileName, size }) => {
     'xlsx': <FunctionsIcon sx={{ display: 'block', width: '128px', height: '128px', marginInline: 'auto' }} />
   }
 
-  const ext = fileName.match(/(?<=[.]).+$/);
+  useEffect(() => {
+
+    getImageSize(thumbLink).then(size => setSize(size || null));
+
+  });
+
+  // const f = use(file)
+  let thumbnail: string | null = null;
+  // let size: {width: number | undefined, height: number | undefined} = {width: 256, height: 256};
+  // if(!!thumbLink) size =  getImageSize(thumbLink as string);
+  // console.log(`size:`, size);
+
+  // console.log(`FileCard fileName: ${fileName}`);
+  const ext = fileName.match(/(?<=[.]).+$/) || 'docx';
   const fn = fileName.match(/^[^.]*(?=[.])?/);
 
   return (
-    <Box component='div' sx={{ margin:'auto', width: `${size.width}px`, height:`calc(${size.height}px * 1.25 `}} >
-      <Card elevation={2} sx={{ height: '100%', width: '100%', margin: '1rem auto', '& .MuiPaper-root': { margin: 0, height: '100%', width: '100%'} }}>
-        {!!thumbLink && <Image alt='thumbnail image' src={thumbLink} width={size.width} height={size.height} style={{ width: '100%', height: '100%', marginInline: 'auto', objectFit:'cover' }} />}
-        {!!thumbLink || extensions[ext]}
-        <CardContent sx={{ height: `85px`, m:1, overflow:'hidden' }} >
-          {/* <Paper variant='outlined' elevation={3} sx={{p:1}}> */}
-            <Typography variant='caption' sx={{ fontSize: '0.8rem', textOverflow:'ellipsis' }} >{fn}</Typography>
-          {/* </Paper> */}
-        </CardContent>
-      </Card>
-    </Box>
+    <>
+      <Suspense fallback={<Skeleton variant='rounded' width={'128px'} height={'128px'} />} >
+
+       {(index === tabIndex && size) ? <Box hidden={index !== tabIndex}  component='div' sx={{ position: 'relative', margin: 'auto', width: `${size?.width}px`, height: `calc(${size?.height}px * 1.25 ` }} >
+          <Card elevation={2} sx={{ height: '100%', width: '100%', margin: '1rem auto', '& .MuiPaper-root': { margin: 0, height: '100%', width: '100%' } }}>
+            {!!thumbLink ?
+              <Suspense fallback={<Skeleton variant='rounded' width={size?.width } height={size?.height} />} >
+                <Image alt='thumbnail image' src={thumbLink} width={size?.width} height={size?.height} style={{ marginInline: 'auto', objectFit: 'cover' }} />
+              </Suspense> :
+              extensions[ext] || <TextSnippetOutlinedIcon sx={{ display: 'block', width: '128px', height: '128px', marginInline: 'auto' }} />}
+            <CardContent sx={{ height: `85px`, m: 1, overflow: 'hidden' }} >
+              <Typography variant='caption' sx={{ fontSize: '0.8rem', textOverflow: 'ellipsis' }} >{fn}</Typography>
+            </CardContent>
+          </Card>
+        </Box> :
+        <Skeleton width={'156px'} height={'353px'} sx={{marginBlock:'2.5%'}} />}
+      </Suspense>
+    </>
   );
 }
 

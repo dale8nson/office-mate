@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef, use, Suspense, ReactElement } from 'react';
+import { useState, useEffect, useRef, useMemo, use, Suspense, ReactElement } from 'react';
 import { SetStateAction, Dispatch, JSXElementConstructor } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -29,19 +29,45 @@ interface FileMeta {
   thumbnailLink: string
 }
 
-const FolderTabs = ({ folderNames, folderFileMap }) => {
+const FolderTabs = ({ folderNames, folderFileMap, imageSizes }) => {
   const [tabIndex, setTabIndex] = useState(0);
   // const [folderFileMap, setFolderFileMap] = useState(null)
   // folderFileMap = JSON.parse(folderFileMap);
 
   const [tabs, setTabs]: [ReactElement[] | null, unknown] = useState<ReactElement[] | null>(null);
-  const [fileCards, setFileCards]: [ReactElement[] | null, unknown] = useState<ReactElement[] | null>(null);
+  // const [fileCards, setFileCards]: [ReactElement[] | null, unknown] = useState<ReactElement[] | null>(null);
+  const [ffm, setFfm]: [ReactElement[] | null, unknown] = useState<ReactElement[] | null>(null);
 
   // console.log(`folderFileMap:`, folderFileMap);
   folderFileMap.then(map => console.log(`folderFileMap:`, map));
 
+  const fileCards = useMemo(() => {
+      let index = 0;
+      const fileGroups: ReactElement[] = [];
+      for (const folderId in ffm) {
+        const fileCards: ReactElement[] = [];
+        for (const meta of ffm[folderId].files) {
+          fileCards.push(
+              <FileCard index={index} tabIndex={tabIndex} fileId={meta.id} imageSize={imageSizes[meta.id]} file={meta} fileName={meta.name} thumbLink={meta.hasThumbnail ? meta.thumbnailLink : null} />
+          )
+          console.log(`fileCards:`, fileCards);
+        }
+        fileGroups.push(
+          <>
+             {index === tabIndex && (<Box key={folderId} hidden={index !== tabIndex}  sx={{ display: 'grid', position: 'absolute', top: '20px', left: '50px', gridTemplateColumns: 'repeat(4, 1fr)', columnGap: '2.5%' }} >
+                {fileCards}
+              </Box>)}
+          </>
+        )
+        index++;
+      }
+      console.log(`fileGroups:`, fileGroups)
+      return fileGroups;
+    },[ffm, tabIndex]);
+  
 
   useEffect(() => {
+
 
     folderNames.then(names => {
       console.log(`folderNames (length: ${Object.keys(names).length}):`, names)
@@ -57,34 +83,33 @@ const FolderTabs = ({ folderNames, folderFileMap }) => {
       // setTabIndex(0);
     });
 
-    folderFileMap.then(map => {
-      console.log(`folderFileMap map:`, map);
-      let index = 0;
-      const fileGroups: ReactElement[] = [];
-      for (const folderId in map) {
-        const fileCards: ReactElement[] = [];
-        for (const meta of map[folderId].files) {
-          fileCards.push(
-            <Suspense key={meta.id} fallback={<Skeleton variant='rounded' />} >
-              <FileCard index={index} tabIndex={tabIndex} fileId={meta.id} file={meta} fileName={meta.name} thumbLink={meta.hasThumbnail ? meta.thumbnailLink : null} />
-            </Suspense>
-          )
-          console.log(`fileCards:`, fileCards);
-        }
-        fileGroups.push(
-          <>
-             {index === tabIndex && (<Box key={folderId} hidden={index !== tabIndex}  sx={{ display: 'grid', position: 'absolute', top: '20px', left: '50px', gridTemplateColumns: 'repeat(4, 1fr)', columnGap: '2.5%' }} >
-                {/* <Suspense> */}
-                {fileCards}
-                {/* </Suspense> */}
-              </Box>)}
-          </>
-        )
-        index++;
-      }
-      console.log(`fileGroups:`, fileGroups)
-      setFileCards(fileGroups);
-    })
+    folderFileMap.then(map => setFfm(map));
+    // folderFileMap.then(map => {
+    //   console.log(`folderFileMap map:`, map);
+    //   let index = 0;
+    //   const fileGroups: ReactElement[] = [];
+    //   for (const folderId in map) {
+    //     const fileCards: ReactElement[] = [];
+    //     for (const meta of map[folderId].files) {
+    //       fileCards.push(
+    //         <Suspense key={meta.id} fallback={<Skeleton variant='rounded' />} >
+    //           <FileCard index={index} tabIndex={tabIndex} fileId={meta.id} file={meta} fileName={meta.name} thumbLink={meta.hasThumbnail ? meta.thumbnailLink : null} />
+    //         </Suspense>
+    //       )
+    //       console.log(`fileCards:`, fileCards);
+    //     }
+    //     fileGroups.push(
+    //       <>
+    //          {index === tabIndex && (<Box key={folderId} hidden={index !== tabIndex}  sx={{ display: 'grid', position: 'absolute', top: '20px', left: '50px', gridTemplateColumns: 'repeat(4, 1fr)', columnGap: '2.5%' }} >
+    //             {fileCards}
+    //           </Box>)}
+    //       </>
+    //     )
+    //     index++;
+    //   }
+    //   console.log(`fileGroups:`, fileGroups)
+    //   setFileCards(fileGroups);
+    // })
   }, [folderFileMap, folderNames, tabIndex]);
 
   // folderFileMap.then(map => console.log(`folderFileMap:`, map));
@@ -93,21 +118,6 @@ const FolderTabs = ({ folderNames, folderFileMap }) => {
     console.log(`new tab index: ${v}`);
     setTabIndex(v);
   }
-  // const tabs: ReactElement[] = [];
-  // if (!!folderFileMap) {
-  //   console.log(`folderFileMap:`, folderFileMap);
-  //   const mapKeys = Object.keys(folderFileMap);
-  //   for (let i = 0; i < mapKeys.length; i++) {
-  //     tabs.push(
-  //       // <Suspense key={mapKeys[i]} >
-  //       <>
-  //         {folderFileMap && <Tab key={mapKeys[i]} value={i} label={<h1>{folderFileMap[i].folderName}</h1>} sx={{ marginInline: 'auto' }} />}
-  //       {/* </Suspense> */}
-  //       </>
-  //     )
-  //   }
-  // }
-  // const fileCards = 
 
   return (
     <Box component='main' sx={{ display: 'flex', width: '100vw', height: '100vh' }} >
@@ -116,10 +126,8 @@ const FolderTabs = ({ folderNames, folderFileMap }) => {
           {tabs}
         </Tabs>
       </Box>
-      <Box component='section' sx={{ width: '80%', height: '100%', position: 'absolute', top: '10%', left: '20%', overflowY: 'scroll', zIndex: 1 }}>
-        <Suspense>
+      <Box component='section' sx={{ width: '80%', height: '90%', position: 'absolute', top: '10%', left: '20%', overflowY: 'scroll', zIndex: 1 }}>
           {fileCards}
-        </Suspense>
       </Box>
     </Box>
 

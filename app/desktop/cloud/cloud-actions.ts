@@ -87,7 +87,13 @@ const getImageSize = async (url: string | null) => {
   const res = await fetch(req);
   const ab = await res.arrayBuffer();
   const buf = Buffer.from(ab);
-  const sz = imgSz(buf);
+  let sz = {}
+  try {
+  sz = imgSz(buf);
+  } catch (e) {
+    console.log(new Error(e));
+    return null;
+  }
   // const sz = fetch(req).then(res => res.arrayBuffer()).then(ab => Buffer.from(ab)).then(buf => imgSz(buf)).then(imgSz => { return { width: imgSz.width, height: imgSz.height } });
   return sz;
 }

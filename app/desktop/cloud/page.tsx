@@ -4,9 +4,9 @@ import { auth } from '@/auth';
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 import FolderTabs from './folder-tabs';
-import { imageSize } from 'image-size';
+// import { imageSize } from 'image-size';
 import Skeleton from '@mui/material/Skeleton';
-import { getFile, getFiles, getThumbLink, getFileParentIDs, getRootFolderId } from './cloud-actions';
+import { getFile, getFiles, getThumbLink, getFileParentIDs, getRootFolderId, getImageSize } from './cloud-actions';
 
 interface Size {
   width: number | undefined,
@@ -96,15 +96,20 @@ const Page = async () => {
   const folderFileMap = getFolderFileMap();
   // console.log(`folderFileMap:`, folderFileMap);
 
+  
   const getImageSizes = async () => {
     const map = await folderFileMap;
+    const imageSizes = {};
     for (const folderId in map) {
-      for(const file of map[folderId]) {
-
+      console.log(`map[${folderId}]:`, map[folderId]);
+      for(const file of map[folderId].files) {
+        imageSizes[file.id] = getImageSize(file.thumbnailLink);
       }
     }
+    return imageSizes;
   }
-
+  const imageSizes = await getImageSizes();
+  console.log(`imageSizes:`, imageSizes);
 
   const getFileNames = async (fileNames: { [id: string]: string } = {}, pageToken = null) => {
 
@@ -127,7 +132,7 @@ const Page = async () => {
   return (
     <Box component='main' sx={{ width: '100%', height: '100%' }}>
       <Suspense fallback={<Skeleton variant='rounded' width='100%' height='100%' />} >
-        <FolderTabs {...{ folderNames, folderFileMap }} />
+        <FolderTabs {...{ folderNames, folderFileMap, imageSizes }} />
       </Suspense>
     </Box>
   );

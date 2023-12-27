@@ -48,7 +48,7 @@ const getRootFolderId = async () => {
 
 const getFiles = async (fields: string | null = null, query: string | null = null, pageToken: string | undefined | null = null) => {
   const access_token = cookies().get('access_token')?.value;
-  const req = new NextRequest(`https://www.googleapis.com/drive/v3/files?orderBy=name&pageSize=1000${pageToken? `&pageToken=${pageToken}`: ''}${fields ? `&fields=${fields}`: ''}${query ? `&q=${query}`:''}` , { headers: { Authorization: `Bearer ${access_token}` } });
+  const req = new NextRequest(`https://www.googleapis.com/drive/v3/files?orderBy=name&pageSize=1000${pageToken ? `&pageToken=${pageToken}` : ''}${fields ? `&fields=${fields}` : ''}${query ? `&q=${query}` : ''}`, { headers: { Authorization: `Bearer ${access_token}` } });
 
   const res = fetch(req).then(res => { return res.json() })
 
@@ -59,7 +59,7 @@ const getFile = async (fileId: string, fields: string | null = null, query: stri
   const access_token = cookies().get('access_token')?.value;
   // console.log(`getFile access_token:`, access_token);
 
-  const req = new NextRequest(`https://www.googleapis.com/drive/v3/files/${fileId}${fields ? '?fields=' + fields : ''}${query && fields ? `&${query}` : query ? `?${query}` :''}`, { headers: { Authorization: `Bearer ${access_token}` } });
+  const req = new NextRequest(`https://www.googleapis.com/drive/v3/files/${fileId}${fields ? '?fields=' + fields : ''}${query && fields ? `&${query}` : query ? `?${query}` : ''}`, { headers: { Authorization: `Bearer ${access_token}` } });
   // console.log(`file request:`, req);
   return fetch(req).then(res => res.json());
   // const json = await res.json();
@@ -82,14 +82,14 @@ const getFileParentIDs = async (fileId: string | undefined) => {
 }
 
 const getImageSize = async (url: string | null) => {
-  if(!url) return {width: 256, height: 256};
+  if (!url) return { width: 256, height: 256 };
   const req = new NextRequest(`${url}?alt=media`);
   const res = await fetch(req);
   const ab = await res.arrayBuffer();
   const buf = Buffer.from(ab);
   let sz = {}
   try {
-  sz = imgSz(buf);
+    sz = imgSz(buf);
   } catch (e) {
     console.log(new Error(e));
     return null;

@@ -106,9 +106,11 @@ const Page = async () => {
         imageSizes[file.id] = getImageSize(file.thumbnailLink);
       }
     }
+    console.log(`imagSizes:`, imageSizes);
+
     return imageSizes;
   }
-  const imageSizes = await getImageSizes();
+  const imageSizes = getImageSizes();
   console.log(`imageSizes:`, imageSizes);
 
   const getFileNames = async (fileNames: { [id: string]: string } = {}, pageToken = null) => {

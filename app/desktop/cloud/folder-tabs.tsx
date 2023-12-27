@@ -29,42 +29,19 @@ interface FileMeta {
   thumbnailLink: string
 }
 
-const FolderTabs = ({ folderNames, folderFileMap, imageSizes }) => {
+const FolderTabs = ({ folderNames, folderFileMap, imageSizes: imgSzs }) => {
   const [tabIndex, setTabIndex] = useState(0);
   // const [folderFileMap, setFolderFileMap] = useState(null)
   // folderFileMap = JSON.parse(folderFileMap);
 
   const [tabs, setTabs]: [ReactElement[] | null, unknown] = useState<ReactElement[] | null>(null);
-  // const [fileCards, setFileCards]: [ReactElement[] | null, unknown] = useState<ReactElement[] | null>(null);
+  const [fileCards, setFileCards]: [ReactElement[] | null, unknown] = useState<ReactElement[] | null>(null);
   const [ffm, setFfm]: [ReactElement[] | null, unknown] = useState<ReactElement[] | null>(null);
+  const [imageSizes, setImageSizes]: [Promise<{width: number, height}>[] | null, unknown] = useState<Promise<{width: number, height}>[] | null>(null);
 
   // console.log(`folderFileMap:`, folderFileMap);
   folderFileMap.then(map => console.log(`folderFileMap:`, map));
-
-  const fileCards = useMemo(() => {
-      let index = 0;
-      const fileGroups: ReactElement[] = [];
-      for (const folderId in ffm) {
-        const fileCards: ReactElement[] = [];
-        for (const meta of ffm[folderId].files) {
-          fileCards.push(
-              <FileCard index={index} tabIndex={tabIndex} fileId={meta.id} imageSize={imageSizes[meta.id]} file={meta} fileName={meta.name} thumbLink={meta.hasThumbnail ? meta.thumbnailLink : null} />
-          )
-          console.log(`fileCards:`, fileCards);
-        }
-        fileGroups.push(
-          <>
-             {index === tabIndex && (<Box key={folderId} hidden={index !== tabIndex}  sx={{ display: 'grid', position: 'absolute', top: '20px', left: '50px', gridTemplateColumns: 'repeat(4, 1fr)', columnGap: '2.5%' }} >
-                {fileCards}
-              </Box>)}
-          </>
-        )
-        index++;
-      }
-      console.log(`fileGroups:`, fileGroups)
-      return fileGroups;
-    },[ffm, tabIndex]);
-  
+  console.log(`imgSzs:`, imgSzs);
 
   useEffect(() => {
 
@@ -83,34 +60,41 @@ const FolderTabs = ({ folderNames, folderFileMap, imageSizes }) => {
       // setTabIndex(0);
     });
 
-    folderFileMap.then(map => setFfm(map));
-    // folderFileMap.then(map => {
-    //   console.log(`folderFileMap map:`, map);
-    //   let index = 0;
-    //   const fileGroups: ReactElement[] = [];
-    //   for (const folderId in map) {
-    //     const fileCards: ReactElement[] = [];
-    //     for (const meta of map[folderId].files) {
-    //       fileCards.push(
-    //         <Suspense key={meta.id} fallback={<Skeleton variant='rounded' />} >
-    //           <FileCard index={index} tabIndex={tabIndex} fileId={meta.id} file={meta} fileName={meta.name} thumbLink={meta.hasThumbnail ? meta.thumbnailLink : null} />
-    //         </Suspense>
-    //       )
-    //       console.log(`fileCards:`, fileCards);
-    //     }
-    //     fileGroups.push(
-    //       <>
-    //          {index === tabIndex && (<Box key={folderId} hidden={index !== tabIndex}  sx={{ display: 'grid', position: 'absolute', top: '20px', left: '50px', gridTemplateColumns: 'repeat(4, 1fr)', columnGap: '2.5%' }} >
-    //             {fileCards}
-    //           </Box>)}
-    //       </>
-    //     )
-    //     index++;
-    //   }
-    //   console.log(`fileGroups:`, fileGroups)
-    //   setFileCards(fileGroups);
-    // })
-  }, [folderFileMap, folderNames, tabIndex]);
+    imgSzs.then(szS => {
+      console.log(`imgSzs:`, imgSzs);
+
+      setImageSizes(szS)}
+      );
+
+    
+
+    folderFileMap.then(map => {
+      let index = 0;
+      const fileGroups: ReactElement[] = [];
+      for (const folderId in map) {
+        const fileCards: ReactElement[] = [];
+        for (const meta of map[folderId].files) {
+          fileCards.push(
+             (!!imageSizes ? 
+              <FileCard index={index} tabIndex={tabIndex} imageSize={imageSizes[meta.id] ?? null} fileName={meta.name} thumbLink={meta.hasThumbnail ? meta.thumbnailLink : null} /> :
+              <Skeleton width='256px' height='353' />
+          ))
+          console.log(`fileCards:`, fileCards);
+        }
+        fileGroups.push(
+          <>
+             {index === tabIndex && (<Box key={folderId} hidden={index !== tabIndex}  sx={{ display: 'grid', position: 'absolute', top: '20px', left: '50px', gridTemplateColumns: 'repeat(4, 1fr)', columnGap: '2.5%' }} >
+                {fileCards}
+              </Box>)}
+          </>
+        )
+        index++;
+      }
+      console.log(`fileGroups:`, fileGroups)
+      setFileCards(fileGroups);
+    });
+
+  }, [folderFileMap, folderNames, tabIndex, imgSzs, imageSizes]);
 
   // folderFileMap.then(map => console.log(`folderFileMap:`, map));
 

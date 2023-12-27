@@ -18,7 +18,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Image from 'next/image';
 // import ServerImage from './server-image';
 
-const FileCard = ({ fileId, file, fileName, thumbLink, index, tabIndex, imageSize }) => {
+const FileCard = ({fileName, thumbLink, index, tabIndex, imageSize }) => {
   // const [url, setUrl] = useState('');
   const [size, setSize] = useState(null);
   // console.log(`FileCard fileName: ${fileName}`);
@@ -33,37 +33,32 @@ const FileCard = ({ fileId, file, fileName, thumbLink, index, tabIndex, imageSiz
   }
 
   useEffect(() => {
-
-    // getImageSize(thumbLink).then(size => setSize(size || null));
     imageSize.then(sz => setSize(sz));
 
-  },[]);
+  }, [imageSize]);
 
-  // const f = use(file)
   let thumbnail: string | null = null;
-  // let size: {width: number | undefined, height: number | undefined} = {width: 256, height: 256};
-  // if(!!thumbLink) size =  getImageSize(thumbLink as string);
-  // console.log(`size:`, size);
 
-  // console.log(`FileCard fileName: ${fileName}`);
   const ext = fileName.match(/(?<=[.]).+$/) || 'docx';
   const fn = fileName.match(/^[^.]*(?=[.])?/);
 
   return (
     <>
-       {(size) ? <Box hidden={index !== tabIndex}  component='div' sx={{ position: 'relative', margin: 'auto', width: `${size?.width}px`, height: `calc(${size?.height}px * 1.25 ` }} >
-          <Card elevation={2} sx={{ height: '100%', width: '100%', margin: '1rem auto', '& .MuiPaper-root': { margin: 0, height: '100%', width: '100%' } }}>
-            {!!thumbLink ?
-              
-                <Image alt='thumbnail image' src={thumbLink} width={size?.width} height={size?.height} style={{ marginInline: 'auto', objectFit: 'cover' }} />
-              :
-              extensions[ext] || <TextSnippetOutlinedIcon sx={{ display: 'block', width: '128px', height: '128px', marginInline: 'auto' }} />}
-            <CardContent sx={{ height: `85px`, m: 1, overflow: 'hidden' }} >
-              <Typography variant='caption' sx={{ fontSize: '0.8rem', textOverflow: 'ellipsis' }} >{fn}</Typography>
-            </CardContent>
-          </Card>
-        </Box> :
-        <Skeleton width={'156px'} height={'353px'} sx={{marginBlock:'2.5%'}} />}
+      {(size) ? <Box hidden={index !== tabIndex} component='div' sx={{ position: 'relative', margin: 'auto', width: `${size?.width}px`, height: `calc(${size?.height}px * 1.25 ` }} >
+        <Card elevation={2} sx={{ height: '100%', width: '100%', margin: '1rem auto', '& .MuiPaper-root': { margin: 0, height: '100%', width: '100%' } }}>
+          {!!thumbLink ?
+
+            <Image alt='thumbnail image' src={thumbLink} width={size?.width} height={size?.height} style={{ marginInline: 'auto', objectFit: 'cover' }} />
+            :
+            extensions[ext] || <TextSnippetOutlinedIcon sx={{ display: 'block', width: '128px', height: '128px', marginInline: 'auto' }} />}
+          <CardContent sx={{ height: `85px`, m: 1, overflow: 'hidden' }} >
+            <Paper component='div' sx={{width:'100%', height:'100%', overflow:'hidden'}}>
+              <Typography variant='caption' sx={{ fontSize: '0.8rem', overflow: 'hidden', wordWrap:'wrap' }} >{fn}</Typography>
+            </Paper>
+          </CardContent>
+        </Card>
+      </Box> :
+        <Skeleton width={'156px'} height={'353px'} sx={{ marginBlock: '2.5%' }} />}
     </>
   );
 }

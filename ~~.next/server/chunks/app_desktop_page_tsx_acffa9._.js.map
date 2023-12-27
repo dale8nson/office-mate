@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sections": [
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/desktop/page.tsx"],"sourcesContent":["'use client';\n\nimport Box from '@mui/material/Box';\nimport Typography from '@mui/material/Typography';\n\nconst Page = () => {\n\n  return (\n    <>  \n      <Box component='main' >\n        <Typography variant='h2' color='primary' >Desktop</Typography>\n      </Box>\n    </>\n  )\n}\n\nexport default Page;"],"names":[],"mappings":";;;;;;;AAAA;;;;AAKA,MAAM,OAAO;IAEX,qBACE;kBACE,cAAA;YAAK,WAAU;sBACb,cAAA;gBAAY,SAAQ;gBAAK,OAAM;0BAAW;;;;;;;;;;;;AAIlD;uCAEe"}},
+    {"offset": {"line": 37, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

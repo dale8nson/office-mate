@@ -1,0 +1,14 @@
+const CHUNK_PUBLIC_PATH = "server/app/desktop/cloud/page.js";
+const runtime = require("../../../chunks/[turbopack]_runtime.js");
+runtime.loadChunk("server/chunks/node_modules_next_0972d7._.js");
+runtime.loadChunk("server/chunks/node_modules_mongodb_ee39a3._.js");
+runtime.loadChunk("server/chunks/node_modules_bson_lib_bson_cjs_732782._.js");
+runtime.loadChunk("server/chunks/node_modules_bignumber_js_bignumber_da4d7f.js");
+runtime.loadChunk("server/chunks/node_modules_3b847e._.js");
+runtime.loadChunk("server/chunks/node_modules_5367b2._.js");
+runtime.loadChunk("server/chunks/node_modules_063081._.js");
+runtime.loadChunk("server/chunks/node_modules_jose_dist_node_esm_5095f8._.js");
+runtime.loadChunk("server/chunks/node_modules_154ae1._.js");
+runtime.loadChunk("server/chunks/_2861a1._.js");
+runtime.getOrInstantiateRuntimeModule("[project]/.next-internal/server/app/desktop/cloud/page/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)", CHUNK_PUBLIC_PATH);
+module.exports = runtime.getOrInstantiateRuntimeModule("[project]/node_modules/next/dist/esm/build/templates/app-page.js/(COMPONENT_0)/[project]/app/desktop/cloud/page.tsx [app-rsc] (ecmascript, Next.js server component)/(COMPONENT_1)/[project]/app/desktop/cloud/loading.tsx [app-rsc] (ecmascript, Next.js server component)/(COMPONENT_2)/[project]/app/desktop/layout.tsx [app-rsc] (ecmascript, Next.js server component)/(COMPONENT_3)/[project]/app/layout.tsx [app-rsc] (ecmascript, Next.js server component)/(COMPONENT_4)/[project]/node_modules/next/dist/client/components/not-found-error.js [app-rsc] (ecmascript, Next.js server component) (ecmascript) {facade}", CHUNK_PUBLIC_PATH).exports;

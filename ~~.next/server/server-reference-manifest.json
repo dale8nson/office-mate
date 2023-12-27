@@ -1,0 +1,62 @@
+{
+  "node": {
+    "b4b4adcd29ec984d1849c1341bb4c18a85321792": {
+      "workers": {
+        "app/desktop/cloud/page": "[project]/.next-internal/server/app/desktop/cloud/page/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/desktop/cloud/page": "rsc"
+      }
+    },
+    "bc516a7b7afad84a354116b826858c24273d918a": {
+      "workers": {
+        "app/desktop/cloud/page": "[project]/.next-internal/server/app/desktop/cloud/page/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/desktop/cloud/page": "rsc"
+      }
+    },
+    "c0125e8480146fc3da070f012d10bff350cec169": {
+      "workers": {
+        "app/desktop/cloud/page": "[project]/.next-internal/server/app/desktop/cloud/page/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/desktop/cloud/page": "rsc"
+      }
+    },
+    "db02d6669d1e13667cefeb97613c268ae3626593": {
+      "workers": {
+        "app/desktop/cloud/page": "[project]/.next-internal/server/app/desktop/cloud/page/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/desktop/cloud/page": "rsc"
+      }
+    },
+    "44d5bb4b269a6af123b04f91ccdc97a2ca9b3867": {
+      "workers": {
+        "app/desktop/cloud/page": "[project]/.next-internal/server/app/desktop/cloud/page/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/desktop/cloud/page": "rsc"
+      }
+    },
+    "6f841681903f4bdcc5f605b8ee7c963a588b0b7b": {
+      "workers": {
+        "app/desktop/cloud/page": "[project]/.next-internal/server/app/desktop/cloud/page/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/desktop/cloud/page": "rsc"
+      }
+    },
+    "68d54108ce72ba81a4df6a28356b67884d12da0e": {
+      "workers": {
+        "app/desktop/cloud/page": "[project]/.next-internal/server/app/desktop/cloud/page/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/desktop/cloud/page": "rsc"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "Mibag0/p0x9MiCp0m8mKjfsRpylrekVIAQTaDMIIxKs="
+}

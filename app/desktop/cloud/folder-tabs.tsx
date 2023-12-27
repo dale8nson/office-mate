@@ -7,7 +7,6 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import FileCard from './file-card';
 import Typography from '@mui/material/Typography';
-import { getFiles, getFileParentIDs, getThumbLink, imageSize } from './cloud-actions';
 import FileView from './file-view';
 import { ThemeContext } from '@emotion/react';
 import { DataObjectSharp } from '@mui/icons-material';

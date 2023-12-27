@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sections": [
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/desktop/main.tsx"],"sourcesContent":["'use client';\nimport Box from '@mui/material/Box';\nimport Toolbar from '@mui/material/Toolbar';\nimport Container from '@mui/material/Container';\nimport ThemeProvider from '../themes';\n\nconst Main = ({ children }) => {\n\n  return (\n    <Box component='main' sx={{ \n      backgroundColor: (theme) =>\n        theme.palette.mode === 'light'\n          ? theme.palette.grey[100]\n          : theme.palette.grey[900],\n      flexGrow: 1,\n      height: '100vh',\n      overflow: 'auto',\n    }}>\n      <Toolbar />\n      <Container maxWidth='lg' sx={{ mt: 4, mb: 4 }}  >\n        {children}\n      </Container>\n    </Box>\n\n  )\n}\n\nexport default Main;"],"names":[],"mappings":";;;;;;;;AAAA;;;;;AAMA,MAAM,OAAO,CAAC,EAAE,QAAQ,EAAE;IAExB,qBACE;QAAK,WAAU;QAAO,IAAI;YACxB,iBAAiB,CAAC,QAChB,MAAM,OAAO,CAAC,IAAI,KAAK,UACnB,MAAM,OAAO,CAAC,IAAI,CAAC,IAAI,GACvB,MAAM,OAAO,CAAC,IAAI,CAAC,IAAI;YAC7B,UAAU;YACV,QAAQ;YACR,UAAU;QACZ;;0BACE;;;;;0BACA;gBAAW,UAAS;gBAAK,IAAI;oBAAE,IAAI;oBAAG,IAAI;gBAAE;0BACzC;;;;;;;;;;;;AAKT;KAnBM;uCAqBS"}},
+    {"offset": {"line": 56, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

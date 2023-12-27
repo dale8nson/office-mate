@@ -1,0 +1,61 @@
+{
+  "node": {
+    "c1f40d0e1ee03146fc2edcb238f867cc63d82850": {
+      "workers": {
+        "app/api/folderfilemap/route": "[project]/.next-internal/server/app/api/folderfilemap/route/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/api/folderfilemap/route": "rsc"
+      }
+    },
+    "44d5bb4b269a6af123b04f91ccdc97a2ca9b3867": {
+      "workers": {
+        "app/api/folderfilemap/route": "[project]/.next-internal/server/app/api/folderfilemap/route/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/api/folderfilemap/route": "rsc"
+      }
+    },
+    "db02d6669d1e13667cefeb97613c268ae3626593": {
+      "workers": {
+        "app/api/folderfilemap/route": "[project]/.next-internal/server/app/api/folderfilemap/route/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/api/folderfilemap/route": "rsc"
+      }
+    },
+    "c0125e8480146fc3da070f012d10bff350cec169": {
+      "workers": {
+        "app/api/folderfilemap/route": "[project]/.next-internal/server/app/api/folderfilemap/route/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/api/folderfilemap/route": "rsc"
+      }
+    },
+    "68d54108ce72ba81a4df6a28356b67884d12da0e": {
+      "workers": {
+        "app/api/folderfilemap/route": "[project]/.next-internal/server/app/api/folderfilemap/route/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/api/folderfilemap/route": "rsc"
+      }
+    },
+    "6f841681903f4bdcc5f605b8ee7c963a588b0b7b": {
+      "workers": {
+        "app/api/folderfilemap/route": "[project]/.next-internal/server/app/api/folderfilemap/route/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/api/folderfilemap/route": "rsc"
+      }
+    },
+    "bc516a7b7afad84a354116b826858c24273d918a": {
+      "workers": {
+        "app/api/folderfilemap/route": "[project]/.next-internal/server/app/api/folderfilemap/route/actions.js/(ACTIONS_MODULE0)/[project]/app/desktop/cloud/cloud-actions.ts [app-rsc] (ecmascript) (ecmascript)"
+      },
+      "layer": {
+        "app/api/folderfilemap/route": "rsc"
+      }
+    }
+  },
+  "edge": {}
+}

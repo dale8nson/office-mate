@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sections": [
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/themes.tsx"],"sourcesContent":["'use client';\n\nimport { createTheme, ThemeProvider as MUIThemeProvider } from '@mui/material/styles';\n\n\nconst defaultTheme = createTheme();\n\nexport default function ThemeProvider({ children }) {\n  return (\n\n    <MUIThemeProvider theme={defaultTheme}  >\n      {children}\n    </MUIThemeProvider>\n\n  )\n}"],"names":[],"mappings":";;;;;;;AAAA;;;AAKA,MAAM,eAAe;AAEN,SAAS,cAAc,EAAE,QAAQ,EAAE;IAChD,qBAEE;QAAkB,OAAO;kBACtB;;;;;;AAIP;KARwB"}},
+    {"offset": {"line": 29, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

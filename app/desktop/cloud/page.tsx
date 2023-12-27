@@ -7,6 +7,7 @@ import FolderTabs from './folder-tabs';
 // import { imageSize } from 'image-size';
 import Skeleton from '@mui/material/Skeleton';
 import { getFile, getFiles, getThumbLink, getFileParentIDs, getRootFolderId, getImageSize } from './cloud-actions';
+import { clientPromise } from '@/actions';
 
 interface Size {
   width: number | undefined,
@@ -39,6 +40,8 @@ type FileGroup = Promise<FileCardProps>[];
 const Page = async () => {
 
   const session = await auth();
+
+  clientPromise?.then(client => console.log(`client:`, client));
 
   const rootFolderId = await getRootFolderId();
 
